@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our 2nd Anniversary Love Story ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        /* Modern Romantic Palette with Cute Accents */
+        :root {
+            --bg-color: #f1e5e5; /* Soft Cream/Off-White */
+            --text-color: #333333; /* Deep Charcoal */
+            --accent-color: #D67A73; /* Muted Rose/Coral for warmth */
+            --light-accent-color: #FFC0CB; /* Light Pink for cute details */
+            --border-color: #E0DEDD; /* Light Gray for borders */
+            --font-primary: 'Georgia', serif;
+            --font-cute: 'Pacifico', cursive; /* Handwritten style */
+            --font-heading: 'Helvetica Neue', sans-serif;
+        }
+
+        /* Base Styles & Modern Reset */
+        body {
+            background-color: var(--bg-color);
+            font-family: var(--font-primary);
+            color: var(--text-color);
+            margin: 0;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+            box-sizing: border-box;
+            min-height: 100vh;
+        }
+
+        .site-wrapper {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Hero Section - Clean Typography */
+        .hero-section {
+            padding: 60px 0 40px;
+            border-bottom: 1px solid var(--border-color);
+            position: relative; /* For floating hearts */
+        }
+
+        .title {
+            font-size: 3.5em; /* Slightly larger */
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 0.1em;
+            font-family: var(--font-heading);
+            display: flex; /* For inline hearts */
+            justify-content: center;
+            align-items: center;
+            gap: 15px; /* Space around hearts */
+        }
+
+        .title .heart-icon {
+            color: var(--accent-color);
+            font-size: 0.8em; /* Slightly smaller than text */
+            animation: pulse 1.5s infinite alternate; /* Heartbeat animation */
+        }
+
+        .subtitle {
+            font-size: 1.8em; /* Slightly larger */
+            font-family: var(--font-cute); /* Cute font */
+            color: var(--accent-color);
+            letter-spacing: 0.05em;
+            margin-top: 5px;
+        }
+
+        /* Initial Content Section */
+        .content-section {
+            padding: 40px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .message-box {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px; /* Slightly more rounded */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* More pronounced shadow */
+            text-align: left;
+            width: 100%;
+            max-width: 550px; /* Slightly wider */
+            border-left: 6px solid var(--accent-color); /* Thicker accent line */
+            position: relative;
+            
+        }
+
+        .message-box::before { /* Cute top-right accent */
+            content: '💖';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.8em;
+            color: var(--light-accent-color);
+            animation: float 3s infinite ease-in-out;
+        }
+
+        .date {
+            margin-top: 25px; /* More space */
+            font-size: 1em; /* Slightly larger */
+            color: var(--accent-color);
+            font-weight: bold;
+            text-align: right;
+            border-top: 1px dashed var(--light-accent-color); /* Lighter dash */
+            padding-top: 12px;
+            font-family: var(--font-cute);
+        }
+
+        .anniversary-photo {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px; /* More rounded */
+            object-fit: cover;
+            aspect-ratio: 16/9; /* Wider aspect ratio for modern feel */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+            transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
+        }
+
+        .anniversary-photo:hover {
+            transform: scale(1.03) rotate(1deg); /* Slight rotation and lift */
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* --- IMMERSIVE GALLERY SECTION STYLES --- */
+
+        #immersive-gallery-section {
+            margin-top: 80px; /* More space from previous section */
+            background-color: white;
+            padding: 50px; /* More padding */
+            border-radius: 15px; /* More rounded */
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
+            display: flex;
+            gap: 50px; /* More gap */
+            text-align: left;
+            position: relative;
+            overflow: hidden; /* For floating hearts within this section */
+        }
+        
+        /* Floating hearts in immersive section */
+        #immersive-gallery-section::before, #immersive-gallery-section::after {
+            content: '❤️';
+            position: absolute;
+            color: var(--light-accent-color);
+            font-size: 2em;
+            opacity: 0.6;
+            animation: float 4s infinite ease-in-out;
+            z-index: 1; /* Below content */
+        }
+        #immersive-gallery-section::before {
+            top: 10%;
+            left: -3%;
+            animation-delay: 1s;
+            transform: rotate(-15deg);
+        }
+        #immersive-gallery-section::after {
+            bottom: 5%;
+            right: -5%;
+            animation-delay: 2.5s;
+            transform: rotate(20deg);
+        }
+
+
+        /* Responsive Columns for Desktop */
+        @media (min-width: 900px) {
+            #immersive-gallery-section {
+                flex-direction: row;
+                text-align: justify;
+            }
+            .message-column {
+                flex: 3;
+                max-height: none;
+                overflow-y: visible;
+                padding-right: 25px; /* More space for scrollbar */
+                scroll-behavior: smooth;
+            }
+            .gallery-column {
+                flex: 2;
+            }
+        }
+        
+        /* Stacked Columns for Mobile */
+        @media (max-width: 899px) {
+            #immersive-gallery-section {
+                flex-direction: column;
+            }
+            .message-column {
+                max-height: none;
+                overflow-y: visible;
+                padding-right: 0;
+            }
+        }
+
+        .message-column h2 {
+            font-family: var(--font-cute); /* Cute font for this heading */
+            color: var(--accent-color);
+            font-size: 2.2em; /* Slightly larger */
+            border-bottom: 2px solid var(--light-accent-color); /* Lighter border */
+            padding-bottom: 12px;
+            margin-top: 0;
+            margin-bottom: 25px; /* More space below heading */
+            text-align: center; /* Center align this heading */
+        }
+
+        .message-column p {
+            margin-bottom: 1.2em; /* More spacing between paragraphs */
+        }
+
+        .gallery-column {
+            position: sticky;
+            top: 40px; 
+            max-height: 80vh; 
+            overflow: hidden;
+            border-radius: 12px; /* More rounded */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+            background-color: var(--bg-color); /* Background for carousel to show through */
+        }
+        
+        .carousel-track {
+            display: flex;
+            width: 300%;
+            transition: transform 0.8s ease-in-out;
+        }
+
+        .carousel-item {
+            width: 100%;
+            height: 100%; /* fill gallery column height (set dynamically via JS) */
+            flex-shrink: 0;
+            background-color: #ccc;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* --- Subtle Animations --- */
+
+        /* Keyframe for a smooth fade-in */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Keyframe for an element sliding up from below */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Heartbeat animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Gentle floating animation */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+
+        /* Applying the animations */
+        .fade-in {
+            animation: fadeIn 1.5s ease-out forwards;
+        }
+
+        .slide-up {
+            animation: slideUp 1.5s ease-out 0.5s forwards;
+            opacity: 0;
+        }
+
+        /* Hide scrollbar for aesthetic, while still allowing scrolling */
+        .message-column::-webkit-scrollbar {
+            width: 5px;
+        }
+        .message-column::-webkit-scrollbar-thumb {
+            background-color: var(--border-color);
+            border-radius: 10px;
+        }
+        .message-column::-webkit-scrollbar-track {
+            background: transparent;
+        }
+    </style>
+</head>
+<body>
+    <div class="site-wrapper">
+        <header class="hero-section">
+            <h1 class="title fade-in">
+                <span class="heart-icon">❤️</span> 
+                Our Story, Chapter Two.
+                <span class="heart-icon">❤️</span>
+            </h1>
+            <p class="subtitle fade-in" style="animation-delay: 0.5s; opacity: 0;">Happy 2nd Anniversary, my love! 💖</p>
+        </header>
+
+        <section class="content-section">
+            <div class="message-box fade-in" style="animation-delay: 1s; opacity: 0;">
+                <p>Every day with you is a gift, a promise, and a joy. Let's celebrate to many more years of love, growth, and adventures!</p>
+                <p class="date">October 27, 2025</p>
+            </div>
+            
+            <!-- Replace "image-of-us-preamble.jpg" with your own file name --><img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="A beautiful photo of the couple" class="anniversary-photo slide-up">
+        </section>
+
+        <!-- The new Immersive Gallery Section --><section id="immersive-gallery-section" class="fade-in" style="animation-delay: 1.5s; opacity: 0;">
+            
+            <div class="message-column">
+                <h2>A Message to my love of my life <span class="heart-icon" style="font-size: 0.8em; animation-delay: 0.5s;">💕</span></h2>
+
+                <p>My Love, Baby, Mimiww, and joyciepie, two years ago today (ambilis huhu), we started a journey doubting whether this would work or not but as time passes by we realized we just need more time to prepare and love each other more. It's easy to mark dates on a calendar, but it's the moments in between that truly matter.</p>
+
+                <p>This whole page is dedicated to celebrating our beautiful complexity of our relationship. You are my best friend, my greatest lover, and the source of my happiness. I cherish the quiet mornings, the late-night talks, the silly inside jokes, and the unwavering support we offer each other. I look at where we started, two people learning each other's quirks and dreams and I'm amazed at the journey we've built.</p>
+
+                <p>Do you remember the we go to Arroceros? The moment we first got there together? That feeling of strong happiness is a bookmark in our story atleast to me, and every time I look at the pictures (like the one currently next to this message!), I'm instantly taken back to that day. miss ko na mimiw</p>
+
+                <p>I know life isn't always in our control. We've faced Arguments, Fights but we've come out stronger because of it we grew to know each others preference and know what to do and what not to do. Thank you for your patience, your empathy, and your willingness to always choose understanding over conflict. That is the true strength of our relationship na kahit magbangayan pa and such we still learn to think and understand each sides.</p>
+
+                <p>As we step into our 2nd year anniversary, my promise to you remains the same: I will continue to be your biggest cheerer, your quiet comfort, and the person who reminds you how incredible you are, every single day. I can't wait to see what adventures, goals, and happy memories the next year will bring. I love you so much that it’s more than words can say.</p>
+
+                <p>Yours always and forever,</p>
+                <p style="font-style: italic; color: var(--accent-color); font-weight: bold; font-family: var(--font-cute);">Reychii</p>
+                </div>
+
+            <div class="gallery-column">
+                <div class="carousel-track" id="image-carousel">
+                    <!-- Image 1 - Cute couple image --><div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1542044812-70b7952e4284?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Couple holding hands in a field">
+                    </div>
+                    <!-- Image 2 - Cute coffee date image --><div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1517433403-12d7c0f16d56?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Couple on a cute coffee date">
+                    </div>
+                    <!-- Image 3 - Cute walking image --><div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1519702221463-793540d6c933?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Couple walking by the sea">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1519702221463-793540d6c933?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Couple walking by the sea">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1519702221463-793540d6c933?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Couple walking by the sea">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1519702221463-793540d6c933?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Couple walking by the sea">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1519702221463-793540d6c933?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Couple walking by the sea">
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+    
+    <script>
+        // JavaScript for the Image Carousel (Simple Autoplay)
+        const carousel = document.getElementById('image-carousel');
+        const items = document.querySelectorAll('.carousel-item');
+        let currentIndex = 0;
+
+        function updateCarousel() {
+            const offset = -currentIndex * 100;
+            carousel.style.transform = `translateX(${offset}%)`;
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % items.length;
+            updateCarousel();
+        }
+
+        // Set the carousel to switch images every 4 seconds
+        setInterval(nextSlide, 4000);
+        
+        // Initial setup to ensure the delay works correctly for the section
+        document.addEventListener('DOMContentLoaded', () => {
+            const immersiveSection = document.getElementById('immersive-gallery-section');
+            setTimeout(() => {
+                immersiveSection.style.opacity = 1; 
+            }, 1500); // Matches the CSS animation delay (1.5s)
+
+            // --- sync gallery height with message column ---
+            const messageCol = document.querySelector('.message-column');
+            const galleryCol = document.querySelector('.gallery-column');
+
+            // debounce helper
+            function debounce(fn, wait=100){ let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args), wait); }; }
+
+            function syncGalleryHeight() {
+                if (!messageCol || !galleryCol) return;
+                if (window.innerWidth >= 900) {
+                    const msgHeight = messageCol.scrollHeight;
+                    const maxAllowed = Math.round(window.innerHeight * 0.8); // cap at 80vh
+                    const target = Math.min(msgHeight, maxAllowed);
+                    galleryCol.style.height = target + 'px';
+                    galleryCol.style.maxHeight = target + 'px';
+                    galleryCol.style.overflow = 'hidden';
+                } else {
+                    // remove desktop-only sizing for mobile
+                    galleryCol.style.height = '';
+                    galleryCol.style.maxHeight = '';
+                    galleryCol.style.overflow = '';
+                }
+            }
+
+            const debouncedSync = debounce(syncGalleryHeight, 120);
+            syncGalleryHeight();
+            window.addEventListener('resize', debouncedSync);
+
+            // watch for content changes in the message column (e.g., you lengthen the message)
+            const mo = new MutationObserver(debouncedSync);
+            mo.observe(messageCol, { childList: true, subtree: true, characterData: true });
+
+            // optional: re-sync after images inside message load
+            const imgs = messageCol.querySelectorAll('img');
+            imgs.forEach(img => img.addEventListener('load', debouncedSync));
+        });
+        
+    </script>
+</body>
+</html>
