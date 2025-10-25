@@ -180,8 +180,7 @@
             }
             .gallery-column {
                 flex: 2;
-                min-height: 450px; /* Minimum height on desktop */
-                aspect-ratio: 4/3; /* Maintain a nice viewing ratio */
+                height: 450px; /* Keeping original fixed height for carousel */
             }
         }
         
@@ -196,9 +195,7 @@
                 padding-right: 0;
             }
             .gallery-column {
-                width: 100%;
-                aspect-ratio: 16/9; /* Wider aspect ratio on mobile */
-                min-height: 300px; /* Ensure minimum height */
+                height: 300px;
             }
         }
 
@@ -226,38 +223,28 @@
             background-color: var(--bg-color);
         }
         
-        /* Improved carousel track that scales with content */
+        /* Fix: Set carousel track width to 500% for 5 items */
         .carousel-track {
             display: flex;
-            width: 500%; /* 100% * number of items */
+            width: 500%; 
             height: 100%;
             transition: transform 0.8s ease-in-out;
         }
 
         .carousel-item {
-            position: relative; /* Changed from absolute */
             width: 100%;
             height: 100%;
-            flex: 1;
+            flex-shrink: 0;
             background-color: #ccc;
             overflow: hidden;
+            position: relative;
         }
 
-        /* Images fill their container while maintaining aspect ratio */
+        /* Fix: Ensured the image covers the entire carousel item frame */
         .carousel-item img {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            object-position: center;
-            transition: transform 0.3s ease;
-        }
-        
-        /* Optional: subtle zoom on hover */
-        .carousel-item:hover img {
-            transform: scale(1.03);
+            object-fit: cover; /* This forces the image to fill the frame, cropping as necessary */
         }
         
         /* --- NEW MEMORY LINE GALLERY STYLES (Dynamic Grid) --- */
@@ -387,7 +374,7 @@
                 <p class="date">October 27, 2025</p>
             </div>
             
-            <img src="/images/header.jpg" alt="A beautiful photo of the couple" class="anniversary-photo slide-up">
+            <img src="https://placehold.co/1200x600/D67A73/FFFFFF?text=Anniversary+Header+Photo" alt="A beautiful photo of the couple" class="anniversary-photo slide-up">
         </section>
 
         <!-- IMMERSIVE GALLERY SECTION (CAROUSEL AND MESSAGE) -->
@@ -500,8 +487,7 @@
         let currentIndex = 0;
 
         function updateCarousel() {
-            // Calculate offset based on the item width (20% since we have 5 items)
-            const offset = -(currentIndex * 20);
+            const offset = -currentIndex * 100;
             carousel.style.transform = `translateX(${offset}%)`;
         }
 
@@ -510,26 +496,8 @@
             updateCarousel();
         }
 
-        function prevSlide() {
-            currentIndex = (currentIndex - 1 + items.length) % items.length;
-            updateCarousel();
-        }
-
-        // Optional: Add keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') prevSlide();
-            if (e.key === 'ArrowRight') nextSlide();
-        });
-
         // Auto-advance the carousel every 4 seconds
-        let autoplayTimer = setInterval(nextSlide, 4000);
-
-        // Optional: Pause autoplay on hover
-        carousel.addEventListener('mouseenter', () => clearInterval(autoplayTimer));
-        carousel.addEventListener('mouseleave', () => autoplayTimer = setInterval(nextSlide, 4000));
-
-        // Initialize the first slide
-        updateCarousel();
+        setInterval(nextSlide, 4000);
         
         
         // --- 2. DYNAMIC MEMORY LINE GRID LOGIC ---
