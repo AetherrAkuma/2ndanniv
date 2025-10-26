@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Anniversary Games 💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Color Palette */
+            --primary-color: #f7a0b3; /* Soft Pink */
+            --accent-color: #d67a73; /* Dusty Rose/Deep Pink */
+            --light-accent-color: #fce4ec; /* Very Light Pink */
+            --text-color: #4a4a4a; /* Dark Gray */
+            --background-color: #fff9f9; /* Off-White Background */
+            
+            /* Fonts */
+            --font-cute: 'Pacifico', cursive;
+            --font-body: 'Quicksand', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-color);
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: var(--font-cute);
+            font-size: 1.8em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--light-accent-color);
+        }
+
+        main {
+            padding: 50px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section {
+            margin-bottom: 80px;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            background-color: white;
+            text-align: center;
+        }
+
+        section h2 {
+            font-family: var(--font-cute);
+            font-size: 2.5em;
+            color: var(--accent-color);
+            margin-bottom: 30px;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+
+        /* --- 1. MEMORY GAME STYLES (FROM PREVIOUS TASK) --- */
+        #memory-game-section {
+            background-color: var(--light-accent-color); /* Light Pink */
+            text-align: center;
+        }
+
+        #game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 columns */
+            grid-gap: 15px;
+            max-width: 500px;
+            margin: 20px auto;
+            perspective: 1000px;
+        }
+
+        .memory-card {
+            width: 100%;
+            height: 100px; /* Fixed height for consistency */
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .memory-card.flip {
+            transform: rotateY(180deg);
+        }
+
+        .front-face, .back-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            font-family: var(--font-cute);
+            font-weight: bold;
+        }
+
+        /* Ensure images inside the front-face scale to fill the card */
+        .front-face img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            display: block;
+        }
+
+        .front-face {
+            background-color: white;
+            color: var(--accent-color);
+            transform: rotateY(180deg);
+        }
+
+        .back-face {
+            background-color: var(--accent-color);
+            color: white;
+            border: 2px solid white;
+            font-size: 1.5em; /* Smaller text for the back */
+        }
+
+        .memory-card.match {
+            pointer-events: none;
+            opacity: 0.8;
+            box-shadow: 0 0 15px rgba(214, 122, 115, 0.8);
+        }
+
+        /* Matched cards stay flipped and visible so the image shows through. */
+        /* Hide the back-face when matched so you only see the front image (no text or overlays). */
+        .memory-card.match .back-face {
+            visibility: hidden;
+            opacity: 0;
+        }
+        .memory-card.match .front-face {
+            z-index: 2; /* ensure front-face sits above */
+        }
+
+        #game-info {
+            font-size: 1.2em;
+            margin-top: 20px;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        #game-completion {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            color: var(--accent-color);
+        }
+
+        #game-completion h3 {
+            font-family: var(--font-cute);
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        #game-completion p {
+            font-size: 1.1em;
+        }
+
+        #restart-game-button {
+            padding: 12px 25px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        #restart-game-button:hover {
+            background-color: #a35d58; 
+        }
+
+        /* --- 2. WORD SEARCH STYLES --- */
+        #word-search-section {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        #word-search-section h2 {
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .word-search-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        #word-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+            font-size: 1.3em;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        #word-list li {
+            margin-bottom: 8px;
+            transition: text-decoration 0.3s;
+        }
+
+        .found-word {
+            text-decoration: line-through;
+            color: var(--light-accent-color);
+            font-weight: bold;
+        }
+
+        #search-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(10, 1fr);
+            width: 350px;
+            height: 350px;
+            max-width: 90vw;
+            max-height: 90vw;
+            background-color: white;
+            border-radius: 10px;
+            padding: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .grid-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--text-color);
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.1s, color 0.1s;
+        }
+
+        .grid-cell.selected {
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 5px;
+        }
+
+        .grid-cell.highlight {
+            background-color: #ffd1dc; /* A brighter highlight pink */
+            color: var(--accent-color);
+            border-radius: 5px;
+        }
+
+        #word-search-message {
+            margin-top: 30px;
+            font-size: 1.5em;
+            font-family: var(--font-cute);
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        #word-search-reset-button {
+            padding: 12px 25px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        #word-search-reset-button:hover {
+            background-color: #a35d58; 
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Our Anniversary Games 🎮</div>
+        <nav>
+            <a href="index.html">Back to Home</a>
+        </nav>
+    </header>
+
+    <main>
+        
+        <section id="memory-game-section">
+            <h2>Our Perfect Match Game <span class="heart-icon">🧩</span></h2>
+            
+            <div id="game-board">
+                </div>
+
+            <div id="game-info">
+                Pairs Matched: <span id="matched-pairs">0</span> / 8
+            </div>
+
+            <div id="game-completion" class="hidden">
+                <h3>You Found Our Perfect Match! 🎉</h3>
+                <p>Just like us, you matched all the pairs. Happy Anniversary! ❤️</p>
+                <button id="restart-game-button">Play Again</button>
+            </div>
+        </section>
+
+        <section id="word-search-section">
+            <h2>Find Our Anniversary Words 🔎</h2>
+            <div class="word-search-container">
+                <div>
+                    <h3>Words to Find:</h3>
+                    <ul id="word-list">
+                        </ul>
+                </div>
+                <div id="search-grid">
+                    </div>
+            </div>
+            <div id="word-search-message" class="hidden">
+                You found all the words! You're a word master! 🏆
+            </div>
+            <button id="word-search-reset-button">Start New Puzzle</button>
+        </section>
+
+    </main>
+
+    <script>
+        // --- 1. MEMORY MATCHING GAME LOGIC (USE IMAGES) ---
+
+        // List of available images in the /images folder. If you add images there,
+        // they will automatically be included here (you can update this list manually).
+        const availableImages = [
+            'images/1.jpg','images/10.jpg','images/11.jpg','images/12.JPG','images/13.jpg','images/14.jpg','images/15.jpg','images/16.JPG','images/17.jpg','images/18.JPG','images/19.jpg','images/2.JPG','images/20.JPG','images/21.jpg','images/22.jpg','images/23.jpg','images/24.jpg','images/25.jpg','images/26.jpg','images/27.jpg','images/28.jpg','images/29.jpg','images/3.jpg','images/30.jpg','images/31.jpg','images/32.jpg','images/33.jpg','images/34.jpg','images/35.jpeg','images/36.jpg','images/37.jpg','images/38.jpg','images/39.jpg','images/4.jpeg','images/40.jpg','images/41.jpg','images/42.jpg','images/43.jpg','images/44.jpg','images/45.jpg','images/46.jpg','images/47.jpeg','images/48.jpeg','images/49.png','images/5.JPG','images/50.jpeg','images/51.jpeg','images/52.jpeg','images/53.jpeg','images/54.jpeg','images/55.jpeg','images/56.jpeg','images/57.jpeg','images/58.jpeg','images/59.jpeg','images/6.JPG','images/60.JPG','images/7.JPG','images/8.jpg','images/9.jpg','images/header.jpg','images/HH1.jpg','images/HH2.jpg','images/HH3.jpg','images/HH4.jpg','images/HH5.jpg'
+        ];
+
+        const FALLBACK_EMOJIS = ['💖','✨','💍','🥂','💌','🐻','🌙','📸','🌹','🎁'];
+
+        const NUM_PAIRS = 8; // number of unique pairs to use
+
+        const gameBoard = document.getElementById('game-board');
+        const matchedPairsSpan = document.getElementById('matched-pairs');
+        const completionDiv = document.getElementById('game-completion');
+        const restartGameButton = document.getElementById('restart-game-button');
+
+        let firstCard = null;
+        let secondCard = null;
+        let lockBoard = false;
+        let matchedCount = 0;
+        let gameCards = [];
+
+        // Fisher-Yates shuffle
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function pickRandom(arr, n) {
+            const copy = arr.slice();
+            shuffle(copy);
+            return copy.slice(0, n);
+        }
+
+        function buildGameCards() {
+            gameCards = [];
+
+            // Use available images first
+            const useCount = Math.min(NUM_PAIRS, availableImages.length);
+            const selectedImages = pickRandom(availableImages, useCount);
+
+            // If not enough images, fill remaining with fallback emojis
+            if (useCount < NUM_PAIRS) {
+                const emojiNeeded = NUM_PAIRS - useCount;
+                const selectedEmojis = pickRandom(FALLBACK_EMOJIS, emojiNeeded);
+                // convert emojis to objects too
+                selectedEmojis.forEach(sym => selectedImages.push(sym));
+            }
+
+            // Create pairs (for both image paths and emoji strings)
+            selectedImages.forEach(item => {
+                if (typeof item === 'string' && item.startsWith('images/')) {
+                    gameCards.push({type: 'img', src: item});
+                    gameCards.push({type: 'img', src: item});
+                } else {
+                    gameCards.push({type: 'emoji', symbol: item});
+                    gameCards.push({type: 'emoji', symbol: item});
+                }
+            });
+
+            shuffle(gameCards);
+        }
+
+        function createMemoryBoard() {
+            buildGameCards();
+            gameBoard.innerHTML = '';
+            matchedCount = 0;
+            matchedPairsSpan.textContent = matchedCount;
+            completionDiv.classList.add('hidden');
+
+            gameCards.forEach((cardData, index) => {
+                const card = document.createElement('div');
+                card.classList.add('memory-card');
+                // store an identifier to compare matches
+                card.dataset.id = cardData.type === 'img' ? cardData.src : cardData.symbol;
+
+                const front = document.createElement('div');
+                front.className = 'front-face';
+
+                if (cardData.type === 'img') {
+                    const img = document.createElement('img');
+                    img.src = cardData.src;
+                    img.alt = 'Memory photo';
+                    // if an image fails to load, show a subtle placeholder background
+                    img.onerror = () => { front.style.background = 'linear-gradient(135deg,#ffe6ec,#ffd6e0)'; };
+                    front.appendChild(img);
+                } else {
+                    front.textContent = cardData.symbol;
+                }
+
+                const back = document.createElement('div');
+                back.className = 'back-face';
+                back.textContent = '2Y';
+
+                card.appendChild(front);
+                card.appendChild(back);
+                card.addEventListener('click', flipCard);
+                gameBoard.appendChild(card);
+            });
+
+            resetBoard();
+        }
+
+        function flipCard() {
+            if (lockBoard) return;
+            if (this === firstCard) return;
+
+            this.classList.add('flip');
+
+            if (!firstCard) {
+                firstCard = this;
+                return;
+            }
+
+            secondCard = this;
+            lockBoard = true;
+            checkForMatch();
+        }
+
+        function checkForMatch() {
+            const isMatch = firstCard.dataset.id === secondCard.dataset.id;
+            if (isMatch) {
+                disableCards();
+                matchedCount++;
+                matchedPairsSpan.textContent = matchedCount;
+                if (matchedCount === NUM_PAIRS) {
+                    setTimeout(() => completionDiv.classList.remove('hidden'), 500);
+                }
+            } else {
+                unflipCards();
+            }
+        }
+
+        function disableCards() {
+            [firstCard, secondCard].forEach(card => {
+                card.removeEventListener('click', flipCard);
+                // keep the card flipped and mark as matched so the image remains visible
+                card.classList.add('match', 'flip');
+
+                // Ensure back-face is hidden and front-face (image) is clearly visible.
+                const front = card.querySelector('.front-face');
+                const back = card.querySelector('.back-face');
+                if (back) {
+                    back.style.display = 'none';
+                }
+                if (front) {
+                    front.style.visibility = 'visible';
+                    front.style.zIndex = '2';
+                    // If there's an <img>, ensure it's visible
+                    const img = front.querySelector('img');
+                    if (img) {
+                        img.style.display = 'block';
+                        img.style.visibility = 'visible';
+                    }
+                }
+            });
+            resetBoard();
+        }
+
+        function unflipCards() {
+            setTimeout(() => {
+                firstCard.classList.remove('flip');
+                secondCard.classList.remove('flip');
+                resetBoard();
+            }, 1000);
+        }
+
+        function resetBoard() {
+            [firstCard, secondCard, lockBoard] = [null, null, false];
+        }
+
+        // Event listener for the restart button
+        restartGameButton.addEventListener('click', createMemoryBoard);
+        
+        // --- 2. WORD SEARCH GAME LOGIC ---
+
+        const GRID_SIZE = 10;
+        const TARGET_WORDS = [
+            "LOVE", "HAPPY", "ANNIVERSARY", "COUPLE", "HEARTS", 
+            "DATE", "HUGS", "FOREVER", "KISS", "YUKI"
+        ];
+        
+        const grid = document.getElementById('search-grid');
+        const wordListElement = document.getElementById('word-list');
+        const wordSearchMessage = document.getElementById('word-search-message');
+        const wordSearchResetButton = document.getElementById('word-search-reset-button');
+        
+        let puzzleGrid = [];
+        let foundWords = new Set();
+        let currentSelection = [];
+        let isSelecting = false;
+
+        // Function to create an empty grid filled with nulls
+        function createEmptyGrid() {
+            return Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill(null));
+        }
+
+        // Function to fill the grid with words (simplified placement - only horizontal/vertical)
+        function placeWords() {
+            puzzleGrid = createEmptyGrid();
+            const wordsToPlace = [...TARGET_WORDS].sort((a, b) => b.length - a.length); // Try placing longer words first
+            const directions = [[0, 1], [1, 0]]; // Horizontal (right), Vertical (down)
+
+            wordsToPlace.forEach(word => {
+                let placed = false;
+                let attempts = 0;
+                while (!placed && attempts < 50) {
+                    attempts++;
+                    const dir = directions[Math.floor(Math.random() * directions.length)];
+                    const dr = dir[0];
+                    const dc = dir[1];
+                    const startRow = Math.floor(Math.random() * GRID_SIZE);
+                    const startCol = Math.floor(Math.random() * GRID_SIZE);
+
+                    let canPlace = true;
+                    if (startRow + dr * (word.length - 1) >= GRID_SIZE || startCol + dc * (word.length - 1) >= GRID_SIZE) {
+                        canPlace = false; // Out of bounds
+                    }
+
+                    if (canPlace) {
+                        // Check for overlap and conflict
+                        for (let i = 0; i < word.length; i++) {
+                            const r = startRow + dr * i;
+                            const c = startCol + dc * i;
+                            if (puzzleGrid[r][c] !== null && puzzleGrid[r][c] !== word[i]) {
+                                canPlace = false; // Conflict
+                                break;
+                            }
+                        }
+                    }
+
+                    if (canPlace) {
+                        // Place the word
+                        for (let i = 0; i < word.length; i++) {
+                            const r = startRow + dr * i;
+                            const c = startCol + dc * i;
+                            puzzleGrid[r][c] = word[i];
+                        }
+                        placed = true;
+                    }
+                }
+            });
+        }
+
+        // Function to fill remaining empty cells with random letters
+        function fillEmptyCells() {
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            for (let r = 0; r < GRID_SIZE; r++) {
+                for (let c = 0; c < GRID_SIZE; c++) {
+                    if (puzzleGrid[r][c] === null) {
+                        puzzleGrid[r][c] = alphabet[Math.floor(Math.random() * alphabet.length)];
+                    }
+                }
+            }
+        }
+
+        // Function to render the grid in HTML
+        function renderGrid() {
+            grid.innerHTML = '';
+            for (let r = 0; r < GRID_SIZE; r++) {
+                for (let c = 0; c < GRID_SIZE; c++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('grid-cell');
+                    cell.textContent = puzzleGrid[r][c];
+                    cell.dataset.row = r;
+                    cell.dataset.col = c;
+                    cell.addEventListener('mousedown', startSelection);
+                    cell.addEventListener('mouseover', extendSelection);
+                    cell.addEventListener('mouseup', endSelection);
+                    grid.appendChild(cell);
+                }
+            }
+        }
+
+        // Function to render the word list
+        function renderWordList() {
+            wordListElement.innerHTML = '';
+            TARGET_WORDS.forEach(word => {
+                const li = document.createElement('li');
+                li.textContent = word;
+                li.dataset.word = word;
+                if (foundWords.has(word)) {
+                    li.classList.add('found-word');
+                }
+                wordListElement.appendChild(li);
+            });
+        }
+
+        // --- Selection Logic ---
+
+        function startSelection(event) {
+            isSelecting = true;
+            currentSelection = [];
+            // Only start selection on a cell, not the whole grid
+            if (event.target.classList.contains('grid-cell')) {
+                const cell = event.target;
+                cell.classList.add('selected');
+                currentSelection.push({
+                    r: parseInt(cell.dataset.row), 
+                    c: parseInt(cell.dataset.col), 
+                    element: cell
+                });
+            }
+        }
+
+        function extendSelection(event) {
+            if (!isSelecting) return;
+            const cell = event.target;
+            if (!cell.classList.contains('grid-cell')) return;
+
+            const r = parseInt(cell.dataset.row);
+            const c = parseInt(cell.dataset.col);
+
+            // The coordinates of the cell being hovered over
+            const newPoint = { r, c, element: cell };
+
+            // Check if this cell is already the last selected cell
+            const lastPoint = currentSelection[currentSelection.length - 1];
+            if (lastPoint && lastPoint.r === r && lastPoint.c === c) return;
+
+            // Simple check to ensure selection is linear (horizontal, vertical, or diagonal)
+            if (currentSelection.length > 1) {
+                const startPoint = currentSelection[0];
+                const dr = newPoint.r - startPoint.r;
+                const dc = newPoint.c - startPoint.c;
+                
+                // Get the direction of the current selection (simplified)
+                const selDr = (currentSelection[1].r - startPoint.r) || 0;
+                const selDc = (currentSelection[1].c - startPoint.c) || 0;
+
+                // Check if the new point maintains the same direction relative to the last point
+                // This is a complex check for a simple implementation. For simplicity, we'll only allow selection 
+                // that is adjacent and linear from the previous point in the selection.
+
+                // If the new point is adjacent to the last point
+                const lastR = lastPoint.r;
+                const lastC = lastPoint.c;
+                const isAdjacent = Math.abs(r - lastR) <= 1 && Math.abs(c - lastC) <= 1 && !(r === lastR && c === lastC);
+
+                if (isAdjacent) {
+                    // Check if the new selection is a valid extension of the current path (linear)
+                    if (currentSelection.length > 1) {
+                        const prevPoint = currentSelection[currentSelection.length - 2];
+                        const prevDr = lastR - prevPoint.r;
+                        const prevDc = lastC - prevPoint.c;
+                        const currDr = r - lastR;
+                        const currDc = c - lastC;
+
+                        if (prevDr !== currDr || prevDc !== currDc) {
+                            // If direction changes, assume the user wants to go back/end selection
+                            return; 
+                        }
+                    }
+
+                    // Add to selection
+                    currentSelection.push(newPoint);
+                    cell.classList.add('selected');
+                } else if (currentSelection.length > 0) {
+                    // If the user moves far away from the path, let's just highlight the current cell
+                    // and wait for mouse up.
+                }
+
+            } else {
+                // First or second selection
+                currentSelection.push(newPoint);
+                cell.classList.add('selected');
+            }
+        }
+        
+        // This is a simplified check for a basic game, true word search often requires 
+        // complex drag-and-select logic, but this allows for simple click-and-drag.
+        // I will use a simple check: if the selected string is one of the words (forward or reverse), it's a match.
+        function endSelection() {
+            isSelecting = false;
+
+            if (currentSelection.length < 2) {
+                clearSelection();
+                return;
+            }
+
+            // Get the selected word forward
+            let forwardWord = currentSelection.map(p => p.element.textContent).join('');
+            // Get the selected word backward
+            let backwardWord = [...forwardWord].reverse().join('');
+
+            const cellsToHighlight = currentSelection.map(p => p.element);
+
+            // Check if either word is in the target list AND not already found
+            const foundTarget = TARGET_WORDS.find(word => 
+                (word === forwardWord || word === backwardWord) && !foundWords.has(word)
+            );
+
+            if (foundTarget) {
+                foundWords.add(foundTarget);
+                renderWordList();
+                cellsToHighlight.forEach(cell => {
+                    cell.classList.remove('selected');
+                    cell.classList.add('highlight');
+                    cell.removeEventListener('mousedown', startSelection);
+                });
+                
+                if (foundWords.size === TARGET_WORDS.length) {
+                    wordSearchMessage.classList.remove('hidden');
+                }
+            }
+            
+            clearSelection();
+        }
+
+        function clearSelection() {
+            grid.querySelectorAll('.grid-cell').forEach(cell => {
+                cell.classList.remove('selected');
+            });
+            currentSelection = [];
+        }
+
+        // Initialize the Word Search Game
+        function initializeWordSearch() {
+            foundWords.clear();
+            placeWords();
+            fillEmptyCells();
+            renderGrid();
+            renderWordList();
+            wordSearchMessage.classList.add('hidden');
+        }
+
+        wordSearchResetButton.addEventListener('click', initializeWordSearch);
+        document.addEventListener('mouseup', () => {
+            // This is a fallback to clear selection if the mouse leaves the grid
+            if (isSelecting) {
+                isSelecting = false;
+                clearSelection();
+            }
+        });
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            createMemoryBoard(); // Initialize Memory Game
+            initializeWordSearch(); // Initialize Word Search Game
+        });
+
+    </script>
+</body>
+</html>
